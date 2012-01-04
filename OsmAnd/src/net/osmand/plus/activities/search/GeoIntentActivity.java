@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.osmand.OsmAndFormatter;
 import net.osmand.data.City;
@@ -179,12 +181,19 @@ public class GeoIntentActivity extends ListActivity {
 	 * geo:latitude,longitude<BR>
 	 * geo:latitude,longitude?z=zoom<BR>
 	 * geo:0,0?q=my+street+address<BR>
-	 * geo:0,0?q=business+near+city
+	 * geo:0,0?q=business+near+city<BR>
+	 * 
+	 * google.navigation:q=latitude,longitude<BR>
+	 * google.navigation:ll=latitude,longitude
 	 * 
 	 * @param data
 	 * @return
 	 */
 	private MyService extract(Uri data) {
+		Matcher matcher = Pattern.compile("([:?&](ll|q)=|geo:)([0-9,.]{4,})([&?].*)?$").matcher(data.toString());
+		if (matcher.find()) {
+			return new GeoPointSearch(matcher.group(3));
+		}
 		// it is 0,0? that means a search
 		if (data.getSchemeSpecificPart().indexOf("0,0?") != -1) {
 			return new GeoAddressSearch(data.getQuery());

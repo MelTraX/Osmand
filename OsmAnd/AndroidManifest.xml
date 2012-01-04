@@ -48,6 +48,11 @@
 			<category android:name="android.intent.category.DEFAULT"></category>
 			<data android:scheme="geo"></data>
 			</intent-filter>
+		<intent-filter>
+			<action android:name="android.intent.action.VIEW"></action>
+			<category android:name="android.intent.category.DEFAULT"></category>
+			<data android:scheme="google.navigation"></data>
+		</intent-filter>
 		</activity>
 		<activity android:name=".activities.TestVoiceActivity"></activity>
 		<activity android:name=".activities.LocalIndexesActivity" android:label="@string/local_index_descr_title"></activity>
